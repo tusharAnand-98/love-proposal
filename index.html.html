@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Jyotsna ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ffb6c1, #ffe4e1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.card {
+    background: white;
+    padding: 30px 25px;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    max-width: 380px;
+    width: 92%;
+    text-align: center;
+    display: none;
+}
+
+.card.active {
+    display: block;
+}
+
+h1 {
+    color: #ff4d6d;
+}
+
+p {
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+button {
+    padding: 12px 26px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.next {
+    background-color: #ff4d6d;
+    color: white;
+}
+
+.buttons {
+    position: relative;
+    height: 90px;
+}
+
+#yes {
+    background-color: #ff4d6d;
+    color: white;
+}
+
+#no {
+    background-color: #ddd;
+    position: absolute;
+    left: 160px;
+}
+
+iframe {
+    width: 100%;
+    height: 200px;
+    border-radius: 15px;
+    margin: 15px 0;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 Background Music -->
+<audio autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
+</audio>
+
+<!-- PAGE 1 -->
+<div class="card active" id="page1">
+    <h1>Hey Jyotsna ❤️</h1>
+    <p>
+        I don’t know when it started…  
+        but somehow you became someone I think about a little too often.
+        <br><br>
+        You make ordinary moments feel special,
+        and I just wanted you to know that.
+    </p>
+    <button class="next" onclick="goToPage(2)">Next 💕</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="card" id="page2">
+    <h1>Something From My Heart 💖</h1>
+
+    <!-- 🔴 REPLACE VIDEO ID -->
+    <iframe
+  src="https://www.youtube.com/embed/1d0lt6fEkn8?rel=0&modestbranding=1"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen>
+</iframe>
+
+    <p>
+        After watching this…  
+        there’s one thing I really want to ask you.
+        <br><br>
+        <strong>Will you be my girlfriend? 💕</strong>
+    </p>
+
+    <div class="buttons">
+        <button id="yes" onclick="sayYes()">YES 🥹</button>
+        <button id="no" onmouseover="moveNo()">NO 🙈</button>
+    </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="card" id="page3">
+    <h1>❤️</h1>
+    <p>
+        I hope this is the start of us.  
+        Of late-night talks, small fights,  
+        silly laughs, and beautiful memories.
+        <br><br>
+        Thank you for choosing me, Jyotsna 💖
+    </p>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+function goToPage(num) {
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+    document.getElementById('page' + num).classList.add('active');
+}
+
+function moveNo() {
+    const noBtn = document.getElementById("no");
+    const x = Math.floor(Math.random() * 220);
+    const y = Math.floor(Math.random() * 60);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+function sayYes() {
+    goToPage(3);
+    startConfetti();
+
+    // 🔴 REPLACE PHONE NUMBER (with country code)
+    const phone = "+91 6204665410";
+    const msg = encodeURIComponent("Hey ❤️ I just saw your proposal… and I want to say YES 😊💖");
+    window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+}
+
+/* 🎉 Confetti */
+function startConfetti() {
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const pieces = [];
+    for (let i = 0; i < 150; i++) {
+        pieces.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 6 + 4,
+            d: Math.random() * 20,
+            color: `hsl(${Math.random() * 360},100%,70%)`
+        });
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+        });
+        update();
+    }
+
+    function update() {
+        pieces.forEach(p => {
+            p.y += Math.cos(p.d) + 2;
+            if (p.y > canvas.height) p.y = 0;
+        });
+    }
+
+    setInterval(draw, 30);
+}
+</script>
+
+</body>
+</html>
